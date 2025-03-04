@@ -9,7 +9,7 @@ namespace BasicReqnroll.Framework
     public sealed class Hooks
     {
         private readonly IObjectContainer objectContainer;
-        private IWebDriver webDriver;
+        private IWebDriver? webDriver;
 
         private const string ChromeMaximizeArgument = "--start-maximized";
         private const string ChromeLanguageArgument = "--lang=en-GB";
@@ -55,8 +55,11 @@ namespace BasicReqnroll.Framework
         [AfterScenario]
         public void AfterScenario()
         {
-            this.webDriver.Close();
-            this.webDriver.Quit();
+            if (this.webDriver is not null)
+            {
+                this.webDriver.Close();
+                this.webDriver.Quit();
+            }
         }
     }
 }
