@@ -26,3 +26,11 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=testresults.trx" || true
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      with:
+        name: Selenium Tests
+        path: '**/testresults.trx'
+        reporter: dotnet-trx
+    
+       
