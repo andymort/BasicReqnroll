@@ -8,11 +8,14 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+permissions:
+  contents: read
+  actions: read
+  checks: write
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -25,4 +28,12 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=testresults.trx" || true
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      with:
+        name: Selenium Tests
+        path: '**/testresults.trx'
+        reporter: dotnet-trx
+    
+       
