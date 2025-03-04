@@ -13,6 +13,7 @@ namespace BasicReqnroll.Framework
 
         private const string ChromeMaximizeArgument = "--start-maximized";
         private const string ChromeLanguageArgument = "--lang=en-GB";
+        private const string ChromeLocationArgument = "--user-data-dir=";
         private const string ChromeAgentEnvironmentVariable = "ChromeWebDriver";
         private const string ChromeExeFilename = "chromedriver.exe";
 
@@ -26,10 +27,14 @@ namespace BasicReqnroll.Framework
             var options = new ChromeOptions();
             options.AddArgument(ChromeMaximizeArgument);
             options.AddArgument(ChromeLanguageArgument);
+  
 
             Console.WriteLine("Using Chrome Browser");
 
             var chromePath = Environment.GetEnvironmentVariable(ChromeAgentEnvironmentVariable);
+ 
+            
+
             if (!string.IsNullOrEmpty(chromePath))
             {
                 // if we are running in a Devops hosted agent
@@ -38,6 +43,10 @@ namespace BasicReqnroll.Framework
                 return new ChromeDriver(agentService, options);
             }
 
+            chromePath = $"{System.Environment.CurrentDirectory}";
+            var fullPath = $"{ChromeLocationArgument}{chromePath}\\{ChromeAgentEnvironmentVariable}";
+            System.Diagnostics.Trace.WriteLine(fullPath); ;
+            options.AddArgument(fullPath);
             var service = ChromeDriverService.CreateDefaultService();
             return new ChromeDriver(service, options);
         }
