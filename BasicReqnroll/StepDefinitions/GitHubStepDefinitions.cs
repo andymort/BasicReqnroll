@@ -49,5 +49,12 @@ namespace BasicReqnroll.StepDefinitions
             var foundElement = this.webDriver.FindElement(By.ClassName(SignUpLabelClassName));
             Assert.AreEqual(foundElement.Text, SignUpLabelUIText);
         }
+
+        [Then("This test will fail")]
+        public void ThenThisTestWillFail()
+        {
+            var foundElement = this.webDriver.FindElement(By.ClassName("ThisClassDoesntExists"));
+        }
+
     }
 }
