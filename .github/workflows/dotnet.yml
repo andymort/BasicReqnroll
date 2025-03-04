@@ -35,5 +35,12 @@ jobs:
         name: Selenium Tests
         path: '**/testresults.trx'
         reporter: dotnet-trx
+    - name: Upload dotnet test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: dotnet-results-trx
+        path: '**/testresults.trx'
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
     
        
